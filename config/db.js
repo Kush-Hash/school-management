@@ -7,12 +7,11 @@ console.log("DB_CA from env:", process.env.DB_CA);
 
 let sslConfig;
 
-// Check if DB_CA looks like a file path (local dev) or an inline certificate (Render env)
+
 if (process.env.DB_CA?.includes("BEGIN CERTIFICATE")) {
-    // Case 1: certificate directly stored in env variable (Render)
+
     sslConfig = { ca: process.env.DB_CA };
 } else if (process.env.DB_CA) {
-    // Case 2: path to certificate file (local dev)
     sslConfig = { ca: fs.readFileSync(process.env.DB_CA) };
 } else {
     sslConfig = undefined; // No SSL
